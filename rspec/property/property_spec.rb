@@ -25,4 +25,18 @@ describe 'Property' do
         expect(new_property.address).to eq({street_number: '30', street_name: 'Hall street', suburb: 'Spring Hill'})
     end
 
+    it 'it should return updated tenant' do
+
+        new_property.update_tenant('Leo', 'Lee')
+        # expect(new_property.tenant).to be({first_name: 'Leo', last_name: 'Lee'})
+        expect(new_property.tenant.first_name).to eq('Leo')
+        expect(new_property.tenant.last_name).to eq('Lee')
+    end
+
+    it 'it should return updated landlord' do
+        new_property.create_landlord('Joyce', 'Michael')
+        expect(new_property.landlord.first_name).to eq('Joyce')
+        expect(new_property.landlord.last_name).to eq('Michael')
+    end
+
 end

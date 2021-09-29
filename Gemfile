@@ -9,3 +9,9 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gem 'tty-font'
 
 gem "pastel"
+
+gem 'tty-prompt'
+
+gem "tty-table"
+
+gem "rainbow"
