@@ -15,3 +15,5 @@ gem 'tty-prompt'
 gem "tty-table"
 
 gem "rainbow"
+
+gem "tty-pie"

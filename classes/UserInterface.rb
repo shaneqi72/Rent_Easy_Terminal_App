@@ -6,21 +6,23 @@ require_relative '../classes/PropertyList'
 require_relative '../classes/UserInterface'
 require 'json'
 require 'rainbow'
+require 'tty-pie'
 
 
 
 
 class UserInterface
    
-    attr_accessor :property_full_list, :property_list
+    attr_accessor :property_full_list, :property_list, :prompt
 
     def initialize
         @property_list = PropertyList.new
+        @prompt = TTY::Prompt.new
     end
     
     def main_menu()
-        prompt = TTY::Prompt.new
-        user = prompt.ask("What is your name?")
+
+        user = @prompt.ask("What is your name?")
         puts Rainbow("Welcome #{user}").yellow
 
         main_menu_options = {
@@ -28,7 +30,8 @@ class UserInterface
             "Create a new leasing property": 2,
             "Update existing property": 3,
             "Remove property": 4,
-            "Exit": 5
+            "Print Summary": 5,
+            "Exit": 6
         }
 
         print_menu_options = {
@@ -40,11 +43,11 @@ class UserInterface
         menuLoop = true
         while menuLoop == true
              pastel = Pastel.new
-            user_selection = prompt.select("Please select one of the following action: ", main_menu_options)
+            user_selection = @prompt.select("Please select one of the following action: ", main_menu_options)
 
             case user_selection
             when 1
-                print_selection = prompt.select("Which list do you want to print?", print_menu_options)
+                print_selection = @prompt.select("Which list do you want to print?", print_menu_options)
                 case print_selection
                 when 1
                    print_full_list(1) 
@@ -54,12 +57,21 @@ class UserInterface
                     print_full_list(3)
                 end
             when 2
+                begin
                 create_new_property()
+                rescue StreetNumberTypeError => e
+                    puts e.street_number_error
+                rescue RentTypeError => e
+                    puts e.rent_error
+                    # retry
+                end
             when 3
                 update_exist_property()
             when 4
                 remove_property()
             when 5
+                print_pie()
+            when 6
                return menuLoop = false
 
             end
@@ -94,61 +106,143 @@ class UserInterface
     end
 
     def create_new_property
-        prompt = TTY::Prompt.new
-        type = prompt.select("Choose the property type?", %w(Unit House Townhouse))
-        street_number = prompt.ask("What is the street number?", required: true)
-        street_name = prompt.ask("What is the street name?", required: true)
-        suburb = prompt.ask("What is the suburb?", required: true)
-        weekly_rent = prompt.ask("What is the weekly rent? (start with $ and follow by number)", required: true)
-        property_status = prompt.select("Please select the current property status?", %w(Occupied Vacant))
-        if property_status == 'Occupied'
-            tenant_first_name = prompt.ask("What is the current tenant first name?", required: true)
-            tenant_last_name = prompt.ask("What is the current tenant last name?", required: true)
+        type = @prompt.select("Choose the property type?", %w(Unit House Townhouse))
+        street_number = @prompt.ask("What is the street number?", required: true) do |q|
+            number_input_validate(q)
         end
-        landlord_firstname = prompt.ask("What is the landlord firstname", required: true)
-        landlord_lastname = prompt.ask("What is the landlord lastname", required: true)
+        
+        street_name = @prompt.ask("What is the street name?", required: true) do |q|
+            letter_input_validate(q)
+        end
+        suburb = @prompt.ask("What is the suburb?", required: true) do |q|
+            letter_input_validate(q)
+        end
+
+        weekly_rent = @prompt.ask("What is the weekly rent? (number only)", required: true) do |q|
+            number_input_validate(q)
+        end
+        # raise RentTypeError if weekly_rent[0] != '$' || weekly_rent[1].to_i == 0
+
+        property_status = @prompt.select("Please select the current property status?", %w(Occupied Vacant))
+        if property_status == 'Occupied'
+            tenant_first_name = @prompt.ask("What is the current tenant first name?", required: true) do |q|
+                letter_input_validate(q)
+            end
+            tenant_last_name = @prompt.ask("What is the current tenant last name?", required: true) do |q|
+                letter_input_validate(q)
+            end
+        end
+        landlord_firstname = @prompt.ask("What is the landlord firstname", required: true) do |q|
+            letter_input_validate(q)
+        end
+        landlord_lastname = @prompt.ask("What is the landlord lastname", required: true) do |q|
+            letter_input_validate(q)
+        end
 
         # @property_list.create_property(type, weekly_rent, property_status, street_number, street_name, suburb, landlord_firstname, landlord_lastname, tenant_first_name, tenant_last_name)
-        @property_list.create_property(type, weekly_rent, property_status, {street_number: street_number, street_name: street_name, suburb: suburb}, {first_name: landlord_firstname, last_name: landlord_lastname}, {first_name: tenant_first_name, last_name: tenant_last_name})
+        @property_list.create_property(type, "$#{weekly_rent}", property_status, {street_number: street_number, street_name: street_name, suburb: suburb}, {first_name: landlord_firstname, last_name: landlord_lastname}, {first_name: tenant_first_name, last_name: tenant_last_name})
     end
 
     def update_exist_property
         return puts "Your portfolio is empty" if @property_list.array.length < 1 
-        prompt = TTY::Prompt.new
         options = @property_list.property_options
-        choice = prompt.select("What property to update", options)
+        choice = @prompt.select("What property to update", options)
         fields = {
             "Weekly Rent": 1,
             "Tenant Name": 2,
             "Landlord Name": 3
         }
-        field = prompt.select("Which filed", fields)
+        field = @prompt.select("Which filed", fields)
 
         # selected_property = @property_list.array.select {|property| property.property_id == choice}
 
         case field
             when 1
-                updated_rent = prompt.ask("what's new rent")
+                updated_rent = @prompt.ask("what's new rent") do |q|
+                    number_input_validate(q)
+                end
                 @property_list.array.each do |property|
                 property.rent = updated_rent if property.property_id == choice
                 end
             when 2 
-                first_name = prompt.ask("Tenant firstname?")
-                last_name = prompt.ask("Tenant lastname")
+                first_name = @prompt.ask("Tenant firstname?") do |q|
+                    letter_input_validate(q)
+                end
+                last_name = @prompt.ask("Tenant lastname") do |q|
+                    letter_input_validate(q)
+                end
                 @property_list.update_tenant(choice, first_name, last_name)
             when 3
-                first_name = prompt.ask("Landlord firstname?")
-                last_name = prompt.ask("Landlord lastname")
+                first_name = @prompt.ask("Landlord firstname?") do |q|
+                    letter_input_validate(q)
+                end
+                last_name = @prompt.ask("Landlord lastname") do |q|
+                    letter_input_validate(q)
+                end
                 @property_list.update_landlord(choice, first_name, last_name)
         end
     end
 
     def remove_property
         return puts "Your portfolio is empty" if @property_list.array.length < 1 
-        prompt = TTY::Prompt.new
         options = @property_list.property_options
-        choice = prompt.select("Which property to be deleted", options)
+        choice = @prompt.select("Which property to be deleted", options)
         @property_list.remove_property(choice)
+    end
+
+    def print_pie
+        data = [
+            {name: "Occupancy", value: (@property_list.array.select {|property| property.status == 'Occupied'}).length, color: :bright_magenta, fill: '*'},
+            {name: "Vacancy", value: (@property_list.array.select {|property| property.status == 'Vacant'}).length, color: :bright_cyan, fill: '+'},
+        ]
+        pie_chart = TTY::Pie.new(data: data, radius: 5)
+        puts pie_chart
+        # total_occupied_property = @property_list.array.select {|property| property.rent[1..-1].to_i if property.status == "Occupied"}
+        # total_rent_weekly = 0
+        # @property_list.array.each do |property|
+        
+        #     if property.status == "Occupied"
+        #         total_rent_weekly += (property.rent)[1..-1].to_i
+        #     end
+        #     return total_rent_weekly
+        # end
+
+       occupied_property = @property_list.array.select {|p| p.status == "Occupied"}
+
+       total_weekly_rent = 0
+       occupied_property.each do |occupied_p|
+        total_weekly_rent = occupied_p.rent[1..-1].to_i + total_weekly_rent
+       end
+
+       total_property_number = @property_list.array.length
+       occupied_property_number = occupied_property.length
+       vacant_property_number = total_property_number - occupied_property_number
+
+        table = TTY::Table.new(["Rent Receivable p/w ","Management Fee p/w", "Occupied Properties", "Vacant Properties", "Total Properties"], [["$#{total_weekly_rent}", "$#{total_weekly_rent * 0.08}", "#{occupied_property_number}", "#{vacant_property_number}", "#{total_property_number}"]])
+        puts table.render(:ascii)
+
+    end
+
+    def letter_input_validate(q)
+            q.validate (/[a-zA-Z]/)
+            q.messages[:valid?] = "Input must be letter only"
+    end
+
+    def number_input_validate(q)
+        q.validate (/\d/)
+        q.messages[:valid?] = "Input must be number only"
     end
 end
 
+# Custom Error Message
+class StreetNumberTypeError < StandardError
+    def street_number_error
+        "values must be integer and not start with 0"
+    end
+end
+
+class RentTypeError < StandardError
+    def rent_error
+        "values must start with $ and followed by number, rent must over $0"
+    end
+end

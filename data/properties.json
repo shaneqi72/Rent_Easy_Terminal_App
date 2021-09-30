@@ -1,6 +1,6 @@
 [
   {
-    "property_id": "77ff153f-27b2-43bb-bfca-8bec432185fd",
+    "property_id": "4e752fbb-b919-49ed-84de-d699a3d7fd78",
     "type": "House",
     "address": {
       "street_number": "40",
@@ -19,7 +19,7 @@
     }
   },
   {
-    "property_id": "871128ab-7eb3-459c-9b71-dfdf807fde41",
+    "property_id": "89c2b1b7-53ff-4f70-be4f-3774e34948c3",
     "type": "House",
     "address": {
       "street_number": "35",
@@ -35,6 +35,44 @@
     "tenant": {
       "first_name": "Sam",
       "last_name": "Lee"
+    }
+  },
+  {
+    "property_id": "dd6fc908-1e2a-4bb3-957c-167d927e79b3",
+    "type": "House",
+    "address": {
+      "street_number": "23",
+      "street_name": "Hello Street",
+      "suburb": "Lincon"
+    },
+    "weekly_rent": "$600",
+    "status": "Occupied",
+    "landlord": {
+      "first_name": "Zoe",
+      "last_name": "Sun"
+    },
+    "tenant": {
+      "first_name": "Lin",
+      "last_name": "Wang"
+    }
+  },
+  {
+    "property_id": "27f89a7d-bbaf-4a94-aa69-75ba2ab31b43",
+    "type": "Townhouse",
+    "address": {
+      "street_number": "2/3",
+      "street_name": "Firemount Street",
+      "suburb": "Linn"
+    },
+    "weekly_rent": "$560",
+    "status": "Occupied",
+    "landlord": {
+      "first_name": "Lee",
+      "last_name": "Jason"
+    },
+    "tenant": {
+      "first_name": "Sandy",
+      "last_name": "Wilson"
     }
   }
 ]
