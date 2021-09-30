@@ -234,15 +234,3 @@ class UserInterface
     end
 end
 
-# Custom Error Message
-class StreetNumberTypeError < StandardError
-    def street_number_error
-        "values must be integer and not start with 0"
-    end
-end
-
-class RentTypeError < StandardError
-    def rent_error
-        "values must start with $ and followed by number, rent must over $0"
-    end
-end
