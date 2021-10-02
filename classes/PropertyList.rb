@@ -26,8 +26,14 @@ class PropertyList
     def update_tenant(property_id, tenant_firstname, tenant_lastname)
         @array.each do |property|
             if property.property_id == property_id
-                property.tenant.first_name = tenant_firstname
-                property.tenant.last_name = tenant_lastname
+                if property.tenant.first_name && property.tenant.last_name
+                    property.tenant.first_name = tenant_firstname
+                    property.tenant.last_name = tenant_lastname
+                else
+                    property.tenant.first_name = tenant_firstname
+                    property.tenant.last_name = tenant_lastname
+                    property.status = 'Occupied'
+                end
             end
         end
         save_list()
