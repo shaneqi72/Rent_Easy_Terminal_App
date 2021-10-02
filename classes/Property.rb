@@ -28,6 +28,7 @@ class Property
         @status = status
     end
 
+    # print out property list for user choose from when the task is "updating property".
     def print_list
         if @tenant.first_name && @tenant.last_name
             return "#{@address[:street_number]} #{@address[:street_name]}, #{@address[:suburb]}. #{@rent}/pw #{@status}. Tenant: #{@tenant.first_name} #{@tenant.last_name}. Landlord: #{@landlord.first_name} #{@landlord.last_name}"
