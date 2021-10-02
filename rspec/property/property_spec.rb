@@ -1,14 +1,15 @@
 require_relative '../../classes/Property.rb'
 
 describe 'Property' do
-    let(:new_property) { Property.new('house', '$430', {first_name: "Leo", last_name: "Michael"}, {first_name: "Haylin", last_name: "Lee"}, {street_number: "5", street_name: "Hall Sreet", suburb: "Toowong"}, "occupied")}
+    
+    let(:new_property) { Property.new('house', '$430', landlord, {first_name: "Haylin", last_name: "Lee"}, {street_number: "5", street_name: "Hall Sreet", suburb: "Toowong"}, "occupied")}
 
     it 'it should return property details' do
         expect(new_property.type).to eq('house')
         expect(new_property.rent).to eq('$430')
         expect(new_property.status).to eq('occupied')
         expect(new_property.address).to eq({street_number: "5", street_name: "Hall Sreet", suburb: "Toowong"})
-        expect(new_property.landlord).to eq({first_name: "Leo", last_name: "Michael"})
+        expect(new_property.landlord.firt).to eq({first_name: "Leo", last_name: "Michael"})
         expect(new_property.tenant).to be({first_name: "Haylin", last_name: "Lee"})
 
     end

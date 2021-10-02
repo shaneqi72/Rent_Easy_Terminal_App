@@ -1,6 +1,6 @@
 [
   {
-    "property_id": "4e752fbb-b919-49ed-84de-d699a3d7fd78",
+    "property_id": "39e10029-1582-4481-b5b5-bd8f89e3fbbe",
     "type": "House",
     "address": {
       "street_number": "40",
@@ -8,18 +8,18 @@
       "suburb": "Sunnybank"
     },
     "weekly_rent": "$400",
-    "status": "Vacant",
+    "status": "Occupied",
     "landlord": {
       "first_name": "Xiong",
       "last_name": "Hai"
     },
     "tenant": {
-      "first_name": null,
-      "last_name": null
+      "first_name": "Carol",
+      "last_name": "Luo"
     }
   },
   {
-    "property_id": "89c2b1b7-53ff-4f70-be4f-3774e34948c3",
+    "property_id": "c0525a9b-bea7-4475-ad6e-143dab615bf8",
     "type": "House",
     "address": {
       "street_number": "35",
@@ -38,7 +38,7 @@
     }
   },
   {
-    "property_id": "dd6fc908-1e2a-4bb3-957c-167d927e79b3",
+    "property_id": "e6bdbb03-2b63-427c-96e6-b98ee6def0ca",
     "type": "House",
     "address": {
       "street_number": "23",
@@ -57,7 +57,7 @@
     }
   },
   {
-    "property_id": "27f89a7d-bbaf-4a94-aa69-75ba2ab31b43",
+    "property_id": "d5e5c6fb-71b3-476f-a5c1-70e7fd04c173",
     "type": "Townhouse",
     "address": {
       "street_number": "2/3",
@@ -73,6 +73,44 @@
     "tenant": {
       "first_name": "Sandy",
       "last_name": "Wilson"
+    }
+  },
+  {
+    "property_id": "dfb4b951-18f1-4e5c-adc6-ee969945c0a8",
+    "type": "House",
+    "address": {
+      "street_number": "57",
+      "street_name": "Wivenhoe Place",
+      "suburb": "Runcorn"
+    },
+    "weekly_rent": "$450",
+    "status": "Occupied",
+    "landlord": {
+      "first_name": "Jackson",
+      "last_name": "Wright"
+    },
+    "tenant": {
+      "first_name": "Sally",
+      "last_name": "Cooler"
+    }
+  },
+  {
+    "property_id": "d9bc3dad-2a88-4f35-a09c-497c53d43b79",
+    "type": "House",
+    "address": {
+      "street_number": "12",
+      "street_name": "Sunny Street",
+      "suburb": "Paddington"
+    },
+    "weekly_rent": "$600",
+    "status": "Occupied",
+    "landlord": {
+      "first_name": "Jenny",
+      "last_name": "Smith"
+    },
+    "tenant": {
+      "first_name": "Wendy",
+      "last_name": "Wright"
     }
   }
 ]

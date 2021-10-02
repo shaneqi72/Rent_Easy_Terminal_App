@@ -19,7 +19,7 @@ class PropertyList
     end
 
     def create_property(type, rent, status, address, landlord, tenant)
-        new_property = @array.push(Property.new(type, rent, landlord, tenant, address, status))
+        @array.push(Property.new(type, rent, landlord, tenant, address, status))
         save_list()
     end
 

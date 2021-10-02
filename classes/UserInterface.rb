@@ -8,11 +8,7 @@ require 'json'
 require 'rainbow'
 require 'tty-pie'
 
-
-
-
 class UserInterface
-   
     attr_accessor :property_full_list, :property_list, :prompt
 
     def initialize
@@ -21,7 +17,6 @@ class UserInterface
     end
     
     def main_menu()
-
         user = @prompt.ask("What is your name?", required: true)
         puts Rainbow("Welcome #{user}").yellow
 
@@ -63,7 +58,6 @@ class UserInterface
                     puts e.street_number_error
                 rescue RentTypeError => e
                     puts e.rent_error
-                    # retry
                 end
             when 3
                 update_exist_property()
@@ -93,16 +87,15 @@ class UserInterface
         case list_selection
         when 1
             table = TTY::Table.new(headers, full_list)
-            puts "There is no property in list yet" if full_list.length < 1
+            puts Rainbow("There is no property in list yet").yellow if full_list.length < 1
         when 2
             table = TTY::Table.new(headers, vacant_list)
-            puts "The vacant list is empty!" if vacant_list.length < 1 
+            puts Rainbow("The vacant list is empty!").yellow if vacant_list.length < 1 
         when 3
             table = TTY::Table.new(headers, occupied_list)
-            puts "The occupied list is empty!" if occupied_list.length < 1
+            puts Rianbow("The occupied list is empty!").yellow if occupied_list.length < 1
         end
         puts table.render(:ascii)
-
     end
 
     def create_new_property
@@ -121,7 +114,6 @@ class UserInterface
         weekly_rent = @prompt.ask("What is the weekly rent? (number only)", required: true) do |q|
             number_input_validate(q)
         end
-        # raise RentTypeError if weekly_rent[0] != '$' || weekly_rent[1].to_i == 0
 
         property_status = @prompt.select("Please select the current property status?", %w(Occupied Vacant))
         if property_status == 'Occupied'
@@ -139,7 +131,6 @@ class UserInterface
             letter_input_validate(q)
         end
 
-        # @property_list.create_property(type, weekly_rent, property_status, street_number, street_name, suburb, landlord_firstname, landlord_lastname, tenant_first_name, tenant_last_name)
         @property_list.create_property(type, "$#{weekly_rent}", property_status, {street_number: street_number, street_name: street_name, suburb: suburb}, {first_name: landlord_firstname, last_name: landlord_lastname}, {first_name: tenant_first_name, last_name: tenant_last_name})
     end
 
@@ -153,8 +144,6 @@ class UserInterface
             "Landlord Name": 3
         }
         field = @prompt.select("Which filed", fields)
-
-        # selected_property = @property_list.array.select {|property| property.property_id == choice}
 
         case field
             when 1
@@ -197,26 +186,17 @@ class UserInterface
         ]
         pie_chart = TTY::Pie.new(data: data, radius: 5)
         puts pie_chart
-        # total_occupied_property = @property_list.array.select {|property| property.rent[1..-1].to_i if property.status == "Occupied"}
-        # total_rent_weekly = 0
-        # @property_list.array.each do |property|
-        
-        #     if property.status == "Occupied"
-        #         total_rent_weekly += (property.rent)[1..-1].to_i
-        #     end
-        #     return total_rent_weekly
-        # end
 
-       occupied_property = @property_list.array.select {|p| p.status == "Occupied"}
+        occupied_property = @property_list.array.select {|p| p.status == "Occupied"}
 
-       total_weekly_rent = 0
-       occupied_property.each do |occupied_p|
+        total_weekly_rent = 0
+        occupied_property.each do |occupied_p|
         total_weekly_rent = occupied_p.rent[1..-1].to_i + total_weekly_rent
-       end
+        end
 
-       total_property_number = @property_list.array.length
-       occupied_property_number = occupied_property.length
-       vacant_property_number = total_property_number - occupied_property_number
+        total_property_number = @property_list.array.length
+        occupied_property_number = occupied_property.length
+        vacant_property_number = total_property_number - occupied_property_number
 
         table = TTY::Table.new(["Rent Receivable p/w ","Management Fee p/w", "Occupied Properties", "Vacant Properties", "Total Properties"], [["$#{total_weekly_rent}", "$#{total_weekly_rent * 0.08}", "#{occupied_property_number}", "#{vacant_property_number}", "#{total_property_number}"]])
         puts table.render(:ascii)
@@ -224,8 +204,8 @@ class UserInterface
     end
 
     def letter_input_validate(q)
-            q.validate (/[a-zA-Z]/)
-            q.messages[:valid?] = "Input must be letter only"
+        q.validate (/[a-zA-Z]/)
+        q.messages[:valid?] = "Input must be letter only"
     end
 
     def number_input_validate(q)
