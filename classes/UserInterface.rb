@@ -16,6 +16,7 @@ class UserInterface
         @prompt = TTY::Prompt.new
     end
     
+    # Display main interface
     def main_menu()
         user = @prompt.ask("What is your name?", required: true)
         puts Rainbow("Welcome #{user}").yellow
@@ -64,7 +65,7 @@ class UserInterface
             when 4
                 remove_property()
             when 5
-                print_pie()
+                print_summary()
             when 6
                return menuLoop = false
 
@@ -72,6 +73,7 @@ class UserInterface
         end
     end
 
+    # Print property list interface
     def print_full_list(list_selection)
         headers  = ["Type", "Address", "Weekly rent", "Status", "Landlord", "Tenant"]
         full_list = []
@@ -98,6 +100,7 @@ class UserInterface
         puts table.render(:ascii)
     end
 
+    # Create new property interface
     def create_new_property
         type = @prompt.select("Choose the property type?", %w(Unit House Townhouse))
         street_number = @prompt.ask("What is the street number?", required: true) do |q|
@@ -134,6 +137,7 @@ class UserInterface
         @property_list.create_property(type, "$#{weekly_rent}", property_status, {street_number: street_number, street_name: street_name, suburb: suburb}, {first_name: landlord_firstname, last_name: landlord_lastname}, {first_name: tenant_first_name, last_name: tenant_last_name})
     end
 
+    # Update property menu
     def update_exist_property
         return puts "Your portfolio is empty" if @property_list.array.length < 1 
         options = @property_list.property_options
@@ -170,6 +174,7 @@ class UserInterface
         end
     end
 
+    # Remove property interface
     def remove_property
         return puts "Your portfolio is empty" if @property_list.array.length < 1 
         options = @property_list.property_options
@@ -177,7 +182,8 @@ class UserInterface
         @property_list.remove_property(choice)
     end
 
-    def print_pie
+    # Print performance summary interface
+    def print_summary
         data = [
             {name: "Occupancy", value: (@property_list.array.select {|property| property.status == 'Occupied'}).length, color: :bright_magenta, fill: '*'},
             {name: "Vacancy", value: (@property_list.array.select {|property| property.status == 'Vacant'}).length, color: :bright_cyan, fill: '+'},
