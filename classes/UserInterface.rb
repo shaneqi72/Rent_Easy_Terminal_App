@@ -22,7 +22,7 @@ class UserInterface
     
     def main_menu()
 
-        user = @prompt.ask("What is your name?")
+        user = @prompt.ask("What is your name?", required: true)
         puts Rainbow("Welcome #{user}").yellow
 
         main_menu_options = {
