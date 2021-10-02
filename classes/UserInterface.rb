@@ -147,25 +147,23 @@ class UserInterface
 
         case field
             when 1
-                updated_rent = @prompt.ask("what's new rent") do |q|
+                updated_rent = @prompt.ask("what's new rent (numbers only)", required: true) do |q|
                     number_input_validate(q)
                 end
-                @property_list.array.each do |property|
-                property.rent = updated_rent if property.property_id == choice
-                end
+                @property_list.update_rent(choice, "$#{updated_rent}") 
             when 2 
-                first_name = @prompt.ask("Tenant firstname?") do |q|
+                first_name = @prompt.ask("Tenant firstname?", required: true) do |q|
                     letter_input_validate(q)
                 end
-                last_name = @prompt.ask("Tenant lastname") do |q|
+                last_name = @prompt.ask("Tenant lastname", required: true) do |q|
                     letter_input_validate(q)
                 end
                 @property_list.update_tenant(choice, first_name, last_name)
             when 3
-                first_name = @prompt.ask("Landlord firstname?") do |q|
+                first_name = @prompt.ask("Landlord firstname?", required: true) do |q|
                     letter_input_validate(q)
                 end
-                last_name = @prompt.ask("Landlord lastname") do |q|
+                last_name = @prompt.ask("Landlord lastname", required: true) do |q|
                     letter_input_validate(q)
                 end
                 @property_list.update_landlord(choice, first_name, last_name)
@@ -209,7 +207,7 @@ class UserInterface
     end
 
     def number_input_validate(q)
-        q.validate (/\d/)
+        q.validate (/^\d{1,45}$/)
         q.messages[:valid?] = "Input must be number only"
     end
 end
