@@ -28,10 +28,6 @@ class Property
         @status = status
     end
 
-    def update_tenant(first_name, last_name)
-        @tenant = Tenant.new(first_name, last_name)
-    end
-
     def print_list
         if @tenant.first_name && @tenant.last_name
             return "#{@address[:street_number]} #{@address[:street_name]}, #{@address[:suburb]}. #{@rent}/pw #{@status}. Tenant: #{@tenant.first_name} #{@tenant.last_name}. Landlord: #{@landlord.first_name} #{@landlord.last_name}"

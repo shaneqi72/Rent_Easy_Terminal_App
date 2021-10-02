@@ -1,13 +1,13 @@
 [
   {
-    "property_id": "39e10029-1582-4481-b5b5-bd8f89e3fbbe",
+    "property_id": "b5dbb50e-2ad4-4c76-9ab2-9c7225d92628",
     "type": "House",
     "address": {
       "street_number": "40",
       "street_name": "Wivenhoe street",
       "suburb": "Sunnybank"
     },
-    "weekly_rent": "$400",
+    "weekly_rent": "600",
     "status": "Occupied",
     "landlord": {
       "first_name": "Xiong",
@@ -19,26 +19,26 @@
     }
   },
   {
-    "property_id": "c0525a9b-bea7-4475-ad6e-143dab615bf8",
+    "property_id": "019ef1c2-5d02-4382-af29-d4183066db62",
     "type": "House",
     "address": {
       "street_number": "35",
       "street_name": "Hall Street",
       "suburb": "Spring Hill"
     },
-    "weekly_rent": "$600",
+    "weekly_rent": "$700",
     "status": "Occupied",
     "landlord": {
       "first_name": "Helen",
       "last_name": "Liu"
     },
     "tenant": {
-      "first_name": "Sam",
-      "last_name": "Lee"
+      "first_name": "Carol",
+      "last_name": "Cheng"
     }
   },
   {
-    "property_id": "e6bdbb03-2b63-427c-96e6-b98ee6def0ca",
+    "property_id": "6f5e66e3-7e97-4ad2-97fd-257e246cfeb2",
     "type": "House",
     "address": {
       "street_number": "23",
@@ -57,7 +57,7 @@
     }
   },
   {
-    "property_id": "d5e5c6fb-71b3-476f-a5c1-70e7fd04c173",
+    "property_id": "a248dd39-91fd-495b-9a0b-fca6c4c546a9",
     "type": "Townhouse",
     "address": {
       "street_number": "2/3",
@@ -76,7 +76,7 @@
     }
   },
   {
-    "property_id": "dfb4b951-18f1-4e5c-adc6-ee969945c0a8",
+    "property_id": "29637db9-8022-4524-8e56-da75d3eedda0",
     "type": "House",
     "address": {
       "street_number": "57",
@@ -95,7 +95,7 @@
     }
   },
   {
-    "property_id": "d9bc3dad-2a88-4f35-a09c-497c53d43b79",
+    "property_id": "cbb093a5-64e9-4719-b85f-a29c0d09ae27",
     "type": "House",
     "address": {
       "street_number": "12",
@@ -111,6 +111,25 @@
     "tenant": {
       "first_name": "Wendy",
       "last_name": "Wright"
+    }
+  },
+  {
+    "property_id": "8ed15bf9-b55a-4cbe-9aa1-dba19fc9dbd7",
+    "type": "Unit",
+    "address": {
+      "street_number": "4/6",
+      "street_name": "Hey Street",
+      "suburb": "Calamvale"
+    },
+    "weekly_rent": "$400",
+    "status": "Vacant",
+    "landlord": {
+      "first_name": "Sun",
+      "last_name": "Xiang"
+    },
+    "tenant": {
+      "first_name": null,
+      "last_name": null
     }
   }
 ]

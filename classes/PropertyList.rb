@@ -18,11 +18,13 @@ class PropertyList
         return properties
     end
 
+    # Create new property and save to json file
     def create_property(type, rent, status, address, landlord, tenant)
         @array.push(Property.new(type, rent, landlord, tenant, address, status))
         save_list()
     end
 
+    # Update tenant name and update json file
     def update_tenant(property_id, tenant_firstname, tenant_lastname)
         @array.each do |property|
             if property.property_id == property_id
@@ -39,26 +41,28 @@ class PropertyList
         save_list()
     end
 
-    def update_landlord(property_id, landlord_firstname, tenant_last_name)
+    # Update date landlord name and update json file
+    def update_landlord(property_id, landlord_firstname, landlord_last_name)
         @array.each do |property|
             if property.property_id == property_id
                 property.landlord.first_name = landlord_firstname
-                property.landlord.last_name = tenant_last_name
+                property.landlord.last_name = landlord_last_name
             end
         end
         save_list()
     end
     
-    def update_status(property_id, status)
-        selected_property = @array.find { |property| property.property_id == property_id}
-        selected_property&.update_status(status) 
-    end
-
+    # Update selected property rent
     def update_rent(property_id, weekly_rent)
-        selected_property = @array.find {|property| property.property_id == property_id}
-        selected_property&.update_rent(weekly_rent)
+        @array.each do |property|
+            if property.property_id == property_id
+                property.rent = weekly_rent
+            end
+        end
+        save_list()
     end
 
+    # Remove property from json file
     def remove_property(property_id)
         @array.delete_if {|property| property.property_id == property_id}
         save_list()
@@ -73,6 +77,7 @@ class PropertyList
         }
     end
 
+    # Function to save list into json file
     def save_list
         jsonArray = @array.map { |property| 
             {
