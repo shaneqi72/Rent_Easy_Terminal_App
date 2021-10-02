@@ -7,7 +7,7 @@ class PropertyList
     def initialize
         @array = convert_to_property
     end
-
+    # convert json data into array of hashes
     def convert_to_property
         json = JSON.load_file('./data/properties.json', symbolize_names: true)
         properties = []
@@ -68,6 +68,7 @@ class PropertyList
         save_list()
     end
 
+    # Create a array of hashed contain name and value. Value is all of property id.
     def property_options
         return @array.map {|property|
             {
