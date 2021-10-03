@@ -22,24 +22,22 @@ class PropertyList
     # Create new property and save to json file
     def create_property(type, rent, status, address, landlord, tenant)
         @array.push(Property.new(type, rent, landlord, tenant, address, status))
-        save_list()
+        save_list(@file_path)
     end
 
     # Update tenant name and update json file
     def update_tenant(property_id, tenant_firstname, tenant_lastname)
+        
         @array.each do |property|
             if property.property_id == property_id
-                if property.tenant.first_name && property.tenant.last_name
-                    property.tenant.first_name = tenant_firstname
-                    property.tenant.last_name = tenant_lastname
-                else
-                    property.tenant.first_name = tenant_firstname
-                    property.tenant.last_name = tenant_lastname
+                property.tenant.first_name = tenant_firstname
+                property.tenant.last_name = tenant_lastname
+                if property.status = 'Vacant'
                     property.status = 'Occupied'
                 end
             end
         end
-        save_list()
+        save_list(@file_path)
     end
 
     # Update date landlord name and update json file
@@ -50,7 +48,7 @@ class PropertyList
                 property.landlord.last_name = landlord_last_name
             end
         end
-        save_list()
+        save_list(@file_path)
     end
     
     # Update selected property rent
@@ -60,13 +58,13 @@ class PropertyList
                 property.rent = weekly_rent
             end
         end
-        save_list()
+        save_list(@file_path)
     end
 
     # Remove property from json file
     def remove_property(property_id)
         @array.delete_if {|property| property.property_id == property_id}
-        save_list()
+        save_list(@file_path)
     end
 
     # Create a array of hashed contain name and value. Value is all of property id.
@@ -80,7 +78,7 @@ class PropertyList
     end
 
     # Function to save list into json file
-    def save_list
+    def save_list(file_path)
         jsonArray = @array.map { |property| 
             {
             "property_id": property.property_id,
@@ -103,6 +101,6 @@ class PropertyList
             }
         }
        
-        File.write('./data/properties.json', JSON.pretty_generate(jsonArray))
+        File.write(file_path, JSON.pretty_generate(jsonArray))
     end
 end
