@@ -46,7 +46,7 @@ class UserInterface
                 print_selection = @prompt.select("Which list do you want to print?", print_menu_options)
                 case print_selection
                 when 1
-                   print_full_list(1) 
+                    print_full_list(1) 
                 when 2
                     print_full_list(2)
                 when 3
@@ -139,7 +139,7 @@ class UserInterface
 
     # Update property menu
     def update_exist_property
-        return puts "Your portfolio is empty" if @property_list.array.length < 1 
+        return puts Rainbow("Your portfolio is empty").yellow if @property_list.array.length < 1 
         options = @property_list.property_options
         choice = @prompt.select("What property to update", options)
         fields = {
@@ -176,7 +176,7 @@ class UserInterface
 
     # Remove property interface
     def remove_property
-        return puts "Your portfolio is empty" if @property_list.array.length < 1 
+        return puts Rainbow("Your portfolio is empty").yellow if @property_list.array.length < 1 
         options = @property_list.property_options
         choice = @prompt.select("Which property to be deleted", options)
         @property_list.remove_property(choice)
