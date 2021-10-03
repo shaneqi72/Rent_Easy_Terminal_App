@@ -53,19 +53,17 @@ class UserInterface
                     print_full_list(3)
                 end
             when 2
-                begin
                 create_new_property()
-                rescue StreetNumberTypeError => e
-                    puts e.street_number_error
-                rescue RentTypeError => e
-                    puts e.rent_error
-                end
             when 3
                 update_exist_property()
             when 4
                 remove_property()
             when 5
-                print_summary()
+                if @property_list.array.length < 1
+                    puts Rainbow('Your portfolio is empty, please add new property').yellow
+                else 
+                    print_summary()
+                end
             when 6
                return menuLoop = false
 
