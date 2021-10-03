@@ -2,14 +2,15 @@ require_relative 'Property'
 require 'json'
 
 class PropertyList
-    attr_accessor :array
+    attr_accessor :array, :file_path
 
-    def initialize
+    def initialize(file_path)
+        @file_path = file_path
         @array = convert_to_property
     end
     # convert json data into array of hashes
     def convert_to_property
-        json = JSON.load_file('./data/properties.json', symbolize_names: true)
+        json = JSON.load_file(@file_path, symbolize_names: true)
         properties = []
         json.each {|prop| 
             new_property = Property.new(prop[:type], prop[:weekly_rent], prop[:landlord], prop[:tenant], prop[:address], prop[:status])

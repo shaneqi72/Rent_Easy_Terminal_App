@@ -12,7 +12,7 @@ class UserInterface
     attr_accessor :property_full_list, :property_list, :prompt
 
     def initialize
-        @property_list = PropertyList.new
+        @property_list = PropertyList.new('./data/properties.json')
         @prompt = TTY::Prompt.new
     end
     
@@ -182,7 +182,7 @@ class UserInterface
         @property_list.remove_property(choice)
     end
 
-    # Print performance summary interface
+    # Print performance summary
     def print_summary
         data = [
             {name: "Occupancy", value: (@property_list.array.select {|property| property.status == 'Occupied'}).length, color: :bright_magenta, fill: '*'},
